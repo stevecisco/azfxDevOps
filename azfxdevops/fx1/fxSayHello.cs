@@ -19,10 +19,13 @@ namespace fx1
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
+            var myFunctionSetting1 = Environment.GetEnvironmentVariable("MY_FUNCTION_SETTING1");
+
             var response = req.CreateResponse(HttpStatusCode.OK);
             response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
 
-            response.WriteString("Welcome to Azure Functions!");
+            response.WriteString("Welcome to Azure Functions!\n");
+            response.WriteString($"MY_FUNCTION_SETTING1 - [{myFunctionSetting1}]\n");
 
             return response;
         }
