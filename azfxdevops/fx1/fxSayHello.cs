@@ -19,13 +19,15 @@ namespace fx1
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
-            var myFunctionSetting1 = Environment.GetEnvironmentVariable("MY_FUNCTION_SETTING1");
-
             var response = req.CreateResponse(HttpStatusCode.OK);
             response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
 
             response.WriteString("Welcome to Azure Functions!\n");
+            var myFunctionSetting1 = Environment.GetEnvironmentVariable("MY_FUNCTION_SETTING1");
             response.WriteString($"MY_FUNCTION_SETTING1 - [{myFunctionSetting1}]\n");
+
+            var myKVSetting1 = Environment.GetEnvironmentVariable("@Microsoft.KeyVault(https://kvazfx.vault.azure.net/secrets/MY-KV-SETTING1)");
+            response.WriteString($"MY_KV_SETTING1 - [{myKVSetting1}]\n");
 
             return response;
         }
