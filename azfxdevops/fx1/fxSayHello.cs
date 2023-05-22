@@ -26,7 +26,7 @@ namespace fx1
             var myFunctionSetting1 = Environment.GetEnvironmentVariable("MY_FUNCTION_SETTING1");
             response.WriteString($"MY_FUNCTION_SETTING1 - [{myFunctionSetting1}]\n");
 
-            var myKVSetting1 = Environment.GetEnvironmentVariable("@Microsoft.KeyVault(https://kvazfx.vault.azure.net/secrets/MY-KV-SETTING1)");
+            var myKVSetting1 = Environment.GetEnvironmentVariable("MY_KV_SETTING1");
             response.WriteString($"MY_KV_SETTING1 - [{myKVSetting1}]\n");
 
             return response;
