@@ -10,16 +10,53 @@ namespace Sudoku.Models
     {
         public List<Square> Squares { get; set; }
 
+        public List<Column> Columns { get; set; }
+
+        public List<Row> Rows { get; set; }
+
+        public List<NineSquare> NineSquares { get; set; }
+
+
         private void InitPuzzle(List<Square> squares)
         {
-            for (int row = 0; row < 9; row++)
+            for (int colIndex = 0; colIndex < 9; colIndex++)
             {
-                for (int col = 0; col < 9; col++)
+                var colOfSquares = new Column(colIndex);
+                Columns.Add(colOfSquares);
+            }
+
+            for (int rowIndex = 0; rowIndex < 9; rowIndex++)
+            {
+                var rowOfSquares = new Row(rowIndex);
+                Rows.Add(rowOfSquares);
+            }
+
+            for (int nsRowIndex = 0; nsRowIndex < 3; nsRowIndex++)
+            {
+                for (int nsColIndex = 0; nsColIndex < 3; nsColIndex++)
                 {
-                    var square = new Square(row, col);
-                    Squares.Add(square);
+                    var nineSquare = new NineSquare(nsRowIndex, nsColIndex);
+                    NineSquares.Add(nineSquare);
                 }
             }
+
+            for (int rowIndex = 0; rowIndex < 9; rowIndex++)
+            {
+                var rowOfSquares = Rows.First(r => r.RowIndex == rowIndex);
+                for (int colIndex = 0; colIndex < 9; colIndex++)
+                {
+                    var columnOfSquares = Columns.First(c => c.ColIndex == colIndex);
+                    var nsColIndex = colIndex / 3;
+                    var nsRowIndex = rowIndex / 3;
+                    var nineSquare = NineSquares.First(ns => ns.ColIndex == nsColIndex && ns.RowIndex == nsRowIndex);
+                    var square = new Square(rowIndex, colIndex);
+                    Squares.Add(square);
+                    rowOfSquares.Squares.Add(square);
+                    columnOfSquares.Squares.Add(square);
+                    nineSquare.Squares.Add(square);
+                }
+            }
+
 
             foreach (var square in squares)
             {
@@ -29,17 +66,24 @@ namespace Sudoku.Models
                     puzzleSquare.Initialize(square);
                 }
             }
+
         }
 
         public Puzzle()
         {
             Squares = new List<Square>();
+            Columns = new List<Column>();
+            Rows = new List<Row>();
+            NineSquares = new List<NineSquare>();
             InitPuzzle(new List<Square>());
         }
 
         public Puzzle(List<Square> squares)
         {
             Squares = new List<Square>();
+            Columns = new List<Column>();
+            Rows = new List<Row>();
+            NineSquares = new List<NineSquare>();
             InitPuzzle(squares);
         }
 

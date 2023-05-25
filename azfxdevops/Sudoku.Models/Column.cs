@@ -8,5 +8,14 @@ namespace Sudoku.Models
 {
     public class Column
     {
+        public List<Square> Squares { get; set; }
+
+        public int ColIndex { get; set; }
+
+        public Column(int colIndex)
+        {
+            Squares = new List<Square>();
+            ColIndex = colIndex;
+        }
     }
 }
