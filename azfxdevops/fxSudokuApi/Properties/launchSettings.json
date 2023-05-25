@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "fxSudokuApi": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7021",
+      "launchBrowser": false
+    }
+  }
+}
