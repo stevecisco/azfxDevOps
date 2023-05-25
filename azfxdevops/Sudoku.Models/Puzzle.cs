@@ -17,26 +17,23 @@ namespace Sudoku.Models
         public List<NineSquare> NineSquares { get; set; }
 
 
-        private void InitPuzzle(List<Square> squares)
+        public void InitPuzzle(List<Square> squares)
         {
             for (int colIndex = 0; colIndex < 9; colIndex++)
             {
-                var colOfSquares = new Column(colIndex);
-                Columns.Add(colOfSquares);
+                Columns.Add(new Column(colIndex));
             }
 
             for (int rowIndex = 0; rowIndex < 9; rowIndex++)
             {
-                var rowOfSquares = new Row(rowIndex);
-                Rows.Add(rowOfSquares);
+                Rows.Add(new Row(rowIndex));
             }
 
             for (int nsRowIndex = 0; nsRowIndex < 3; nsRowIndex++)
             {
                 for (int nsColIndex = 0; nsColIndex < 3; nsColIndex++)
                 {
-                    var nineSquare = new NineSquare(nsRowIndex, nsColIndex);
-                    NineSquares.Add(nineSquare);
+                    NineSquares.Add(new NineSquare(nsRowIndex, nsColIndex));
                 }
             }
 
@@ -51,12 +48,14 @@ namespace Sudoku.Models
                     var nineSquare = NineSquares.First(ns => ns.ColIndex == nsColIndex && ns.RowIndex == nsRowIndex);
                     var square = new Square(rowIndex, colIndex);
                     Squares.Add(square);
-                    rowOfSquares.Squares.Add(square);
-                    columnOfSquares.Squares.Add(square);
-                    nineSquare.Squares.Add(square);
+                    rowOfSquares.Add(square);
+                    columnOfSquares.Add(square);
+                    nineSquare.Add(square);
                 }
             }
 
+            Console.WriteLine(GetAllowedDigits());
+            Console.WriteLine("\n\n");
 
             foreach (var square in squares)
             {
@@ -75,17 +74,8 @@ namespace Sudoku.Models
             Columns = new List<Column>();
             Rows = new List<Row>();
             NineSquares = new List<NineSquare>();
-            InitPuzzle(new List<Square>());
         }
 
-        public Puzzle(List<Square> squares)
-        {
-            Squares = new List<Square>();
-            Columns = new List<Column>();
-            Rows = new List<Row>();
-            NineSquares = new List<NineSquare>();
-            InitPuzzle(squares);
-        }
 
 
         public string GetAllowedDigits()
@@ -130,6 +120,24 @@ namespace Sudoku.Models
             }
             output += doubleHorizontalSeparator;
             return output;
+        }
+
+        public void CalculateExclusions()
+        {
+            Rows.ForEach(r =>
+            {
+                for (int col = 0; col < 8; col++)
+                {
+
+                }
+            });
+        }
+
+        public bool IsPuzzleSolved()
+        {
+            var allSet = true;
+            Squares.ForEach(sq => allSet &= (sq.Digit != null));
+            return allSet;
         }
     }
 }

@@ -7,34 +7,34 @@ namespace Sudoku.Models.Tests
         public void TestModelSquareAllowedDigits()
         {
             var model = new Square(0, 0);
-            Assert.AreEqual("123\n456\n789", model.GetAllowedDigits(null));
+            Assert.AreEqual(" 1 2 3 \n 4 5 6 \n 7 8 9 ", model.GetAllowedDigits(null));
 
-            model.OneExcluded = true;
-            Assert.AreEqual(" 23\n456\n789", model.GetAllowedDigits(null));
+            model.SetExcludedDigit(1);
+            Assert.AreEqual("   2 3 \n 4 5 6 \n 7 8 9 ", model.GetAllowedDigits(null));
 
-            model.TwoExcluded = true;
-            Assert.AreEqual("  3\n456\n789", model.GetAllowedDigits(null));
+            model.SetExcludedDigit(2);
+            Assert.AreEqual("     3 \n 4 5 6 \n 7 8 9 ", model.GetAllowedDigits(null));
 
-            model.ThreeExcluded = true;
-            Assert.AreEqual("   \n456\n789", model.GetAllowedDigits(null));
+            model.SetExcludedDigit(3);
+            Assert.AreEqual("       \n 4 5 6 \n 7 8 9 ", model.GetAllowedDigits(null));
 
-            model.FourExcluded = true;
-            Assert.AreEqual("   \n 56\n789", model.GetAllowedDigits(null));
+            model.SetExcludedDigit(4);
+            Assert.AreEqual("       \n   5 6 \n 7 8 9 ", model.GetAllowedDigits(null));
 
-            model.FiveExcluded = true;
-            Assert.AreEqual("   \n  6\n789", model.GetAllowedDigits(null));
+            model.SetExcludedDigit(5);
+            Assert.AreEqual("       \n     6 \n 7 8 9 ", model.GetAllowedDigits(null));
 
-            model.SixExcluded = true;
-            Assert.AreEqual("   \n   \n789", model.GetAllowedDigits(null));
+            model.SetExcludedDigit(6);
+            Assert.AreEqual("       \n       \n 7 8 9 ", model.GetAllowedDigits(null));
 
-            model.SevenExcluded = true;
-            Assert.AreEqual("   \n   \n 89", model.GetAllowedDigits(null));
+            model.SetExcludedDigit(7);
+            Assert.AreEqual("       \n       \n   8 9 ", model.GetAllowedDigits(null));
 
-            model.EightExcluded = true;
-            Assert.AreEqual("   \n   \n  9", model.GetAllowedDigits(null));
+            model.SetExcludedDigit(8);
+            Assert.AreEqual("       \n       \n     9 ", model.GetAllowedDigits(null));
 
-            model.NineExcluded = true;
-            Assert.ThrowsException<InvalidOperationException>(() => { var d = model.GetAllowedDigits; });            
+            model.SetExcludedDigit(9);
+            Assert.ThrowsException<InvalidOperationException>(() => { var d = model.GetAllowedDigits(null); });            
         }
 
         [TestMethod]

@@ -1,21 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Sudoku.Models
+﻿namespace Sudoku.Models
 {
-    public class Row
+    public class Row : List<Square>
     {
-        public List<Square> Squares { get; set; }
-
         public int RowIndex { get; set; }
 
         public Row(int rowIndex)
         {
-            Squares = new List<Square>();
             RowIndex = rowIndex;
         }
+
+        public new void Add(Square square)
+        {
+            base.Add(square);
+            square.DigitSet += Square_DigitSet;
+        }
+
+        private void Square_DigitSet(object? sender, int e)
+        {
+            if (sender != null)
+            {
+                var sourceSquare = (Square)sender;
+                foreach (var sq in this)
+                {
+                    if (!((sq.RowIndex == sourceSquare.RowIndex) && (sq.ColIndex == sourceSquare.ColIndex)))
+                    {
+                        sq.SetExcludedDigit(e);
+                    }
+                }
+            }
+        }
+
     }
 }
