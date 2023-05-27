@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,32 +11,20 @@ namespace Sudoku.Models
     {
         public List<Square> Squares { get; set; }
 
-        public List<Column> Columns { get; set; }
+        public Columns Columns { get; set; }
 
-        public List<Row> Rows { get; set; }
+        public Rows Rows { get; set; }
 
-        public List<NineSquare> NineSquares { get; set; }
+        public NineSquares NineSquares { get; set; }
 
 
-        public void InitPuzzle(List<Square> squares)
+        public Puzzle(List<Square> squares)
         {
-            for (int colIndex = 0; colIndex < 9; colIndex++)
-            {
-                Columns.Add(new Column(colIndex));
-            }
+            Squares = new List<Square>();
+            Columns = new Columns();
+            Rows = new Rows();
+            NineSquares = new NineSquares();
 
-            for (int rowIndex = 0; rowIndex < 9; rowIndex++)
-            {
-                Rows.Add(new Row(rowIndex));
-            }
-
-            for (int nsRowIndex = 0; nsRowIndex < 3; nsRowIndex++)
-            {
-                for (int nsColIndex = 0; nsColIndex < 3; nsColIndex++)
-                {
-                    NineSquares.Add(new NineSquare(nsRowIndex, nsColIndex));
-                }
-            }
 
             for (int rowIndex = 0; rowIndex < 9; rowIndex++)
             {
@@ -54,9 +43,6 @@ namespace Sudoku.Models
                 }
             }
 
-            Console.WriteLine(GetAllowedDigits());
-            Console.WriteLine("\n\n");
-
             foreach (var square in squares)
             {
                 var puzzleSquare = Squares.FirstOrDefault(s => s.RowIndex == square.RowIndex && s.ColIndex == square.ColIndex);
@@ -66,78 +52,87 @@ namespace Sudoku.Models
                 }
             }
 
-        }
 
-        public Puzzle()
-        {
-            Squares = new List<Square>();
-            Columns = new List<Column>();
-            Rows = new List<Row>();
-            NineSquares = new List<NineSquare>();
         }
 
 
 
-        public string GetAllowedDigits()
+        public string GetAllowedDigitsFormatted()
         {
             var output = string.Empty;
-            var horizontalSeparator = new string('-', 95) + "\n";
-            var doubleHorizontalSeparator = new string('=', 95) + "\n";
+            var hSeparator = new string('-', 95) + "\n";
+            var dhSeparator = new string('=', 95) + "\n";
+            var vSeparator = "|";
+            var dvSeparator = "||";
+
             for (int row = 0; row < 9; row++)
             {
-                if ((row == 0) || (row == 3) || (row == 6))
-                {
-                    output += doubleHorizontalSeparator;
-                }
-                else
-                {
-                    output += horizontalSeparator;
-                }
+                output += row % 3 == 0 ? dhSeparator : hSeparator;
 
                 for (int internalRow = 0; internalRow < 3; internalRow++)
                 {
-                    var lineOutput = String.Empty;
+                    var lineOutput = dvSeparator;
                     for (int col = 0; col < 9; col++)
                     {
                         var square = Squares.First(s => s.ColIndex == col && s.RowIndex == row);
-
-                        lineOutput += square.GetAllowedDigits(internalRow);
-                        if (col == 0)
-                        {
-                            lineOutput = "||" + lineOutput + "|";
-                        }
-                        else if (col < 8)
-                        {
-                            lineOutput += "|";
-                            if ((col == 2) || (col == 5))
-                            {
-                                lineOutput += "|";
-                            }
-                        }
+                        var squareInternalRow = square.GetAllowedDigitsFormatted(internalRow);
+                        lineOutput += square.GetAllowedDigitsFormatted(internalRow);
+                        lineOutput += (col + 1) % 3 == 0 ? dvSeparator : vSeparator;
                     }
-                    output += lineOutput + "||" + "\n";
+                    output += lineOutput + "\n";
                 }
             }
-            output += doubleHorizontalSeparator;
+            output += dhSeparator;
             return output;
         }
 
-        public void CalculateExclusions()
-        {
-            Rows.ForEach(r =>
-            {
-                for (int col = 0; col < 8; col++)
-                {
-
-                }
-            });
-        }
 
         public bool IsPuzzleSolved()
         {
             var allSet = true;
-            Squares.ForEach(sq => allSet &= (sq.Digit != null));
+            Squares.ForEach(sq => allSet &= sq.IsSolved);
             return allSet;
         }
+
+        public int GetNumberSolved()
+        {
+            return Squares.Count(sq => sq.IsSolved);
+        }
+
+        public Tuple<bool,int> TrySolvePuzzle(int iteration, int maxIterations)
+        {
+            var startTime = DateTime.Now;
+            var lastNumberSolved = 0;
+            var currentNumberSolved = GetNumberSolved();
+            while ((iteration < maxIterations) && (!IsPuzzleSolved()) && (lastNumberSolved != currentNumberSolved))
+            {
+                iteration += 1;
+                lastNumberSolved = currentNumberSolved;
+                Columns.ForEach(col =>
+                {
+                    col.CheckForMatchesAndReduce();
+                });
+
+                Rows.ForEach(row =>
+                {
+                    row.CheckForMatchesAndReduce();
+                });
+
+                NineSquares.ForEach(ns =>
+                {
+                    ns.CheckForMatchesAndReduce();
+                });
+
+                currentNumberSolved = GetNumberSolved();
+                Console.WriteLine($"Iteration {iteration} of {maxIterations} Solved {currentNumberSolved} of 81");
+                Console.WriteLine(GetAllowedDigitsFormatted());
+                Console.WriteLine("\n\n");
+            }
+            var endTime = DateTime.Now;
+            Console.WriteLine($"Attempt took {endTime.Subtract(startTime).TotalMilliseconds} milliseconds");
+            return new Tuple<bool,int>(IsPuzzleSolved(), iteration);
+            
+        }
+
     }
 }

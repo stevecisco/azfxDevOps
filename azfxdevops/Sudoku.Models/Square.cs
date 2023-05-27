@@ -3,34 +3,54 @@
     public class Square
     {
         public event EventHandler<int> DigitSet;
+        public string Identifier { get; private set; }
 
+        
         private bool[] _excludedDigits = new bool[9] { false, false, false, false, false, false, false, false, false};
-        public void SetExcludedDigit(int digit)
+        
+        public void SetExcludedDigits(List<int> digits)
         {
-            if (digit < 1 || digit > 9) throw new InvalidOperationException("Only digits 1 through 9 are allowed");
-            _excludedDigits[digit - 1] = true;
+            if (digits.Any(digit => ((digit < 1) || (digit > 9)))) throw new InvalidOperationException("Only digits 1 through 9 are allowed");
+            digits.ForEach(digit =>
+            {
+                if (!IsDigitExcluded(digit))
+                {
+                    _excludedDigits[digit - 1] = true;
+                }
+            });
+            var allowedDigits = GetAllowedDigits();
+            if (allowedDigits.Count == 1)
+            {
+                Digit = allowedDigits[0];
+            }
         }
 
-        public bool GetExcludedDigitValue(int digit)
+        public bool IsDigitExcluded(int digit)
         {
             if (digit < 1 || digit > 9) throw new InvalidOperationException("Only digits 1 through 9 are allowed");
             return _excludedDigits[digit - 1];
         }
 
+        public bool IsSolved { get => Digit > 0; }
 
         public int RowIndex { get; set; }
 
         public int ColIndex { get; set; }
 
-        public Square(int rowIndex, int colIndex) 
+        public Square(int rowIndex, int colIndex, int? digit = null) 
         {
             if (rowIndex < 0) throw new ArgumentOutOfRangeException(nameof(rowIndex));
             if (colIndex < 0) throw new ArgumentOutOfRangeException(nameof(colIndex));
             if (rowIndex > 8) throw new ArgumentOutOfRangeException(nameof(rowIndex));
-            if (colIndex > 8) throw new ArgumentOutOfRangeException(nameof(ColIndex));
+            if (colIndex > 8) throw new ArgumentOutOfRangeException(nameof(colIndex));
 
             RowIndex = rowIndex;
             ColIndex = colIndex;
+            if (digit != null)
+            {
+                Digit = digit.Value;
+            }
+            Identifier = $"SQ-R{rowIndex}C{colIndex}";
         }
 
         protected virtual void OnDigitSet(int digit)
@@ -45,10 +65,7 @@
         public void Initialize(Square other)
         {
             if (other == null) return;
-            if (other.Digit != null)
-            {
-                Digit = other.Digit;
-            }
+            Digit = other.Digit;
         }
 
         private int _digit;
@@ -58,15 +75,25 @@
             set
             {
                 if (value < 1 || value > 9) throw new InvalidOperationException("Only digits 1 through 9 are allowed");
+                var fireEvent = _digit != value;
                 _digit = value;
                 for (int i = 0; i < 9; i++)
                 {
                     if (i != (_digit - 1)) _excludedDigits[i] = true;
                 }
-                OnDigitSet(_digit);
+                if (fireEvent) OnDigitSet(_digit);
             }
         }
 
+
+        public string GetAllowedDigitsPacked()
+        {
+            var digits = GetAllowedDigits();
+            var tempDigits = string.Empty;
+            digits.ForEach(d => tempDigits += d);
+            if (string.IsNullOrEmpty(tempDigits)) throw new InvalidOperationException("Invalid model state no digits allowed");
+            return tempDigits;
+        }
 
         public List<int> GetAllowedDigits()
         {
@@ -78,16 +105,8 @@
             return allowedDigits;
         }
 
-        private void CheckFOrDigitBasedOnExclusions()
-        {
-            List<int> allowedDigits = GetAllowedDigits();
-            if (allowedDigits.Count == 1)
-            {
-                Digit = allowedDigits[0];
-            }
-        }
 
-        public string GetAllowedDigits(int? internalRow)
+        public string GetAllowedDigitsFormatted(int? internalRow)
         {
             if (internalRow.HasValue)
             {

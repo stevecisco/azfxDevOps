@@ -3,38 +3,39 @@ namespace Sudoku.Models.Tests
     [TestClass]
     public class SquareModelTests
     {
+
         [TestMethod]
         public void TestModelSquareAllowedDigits()
         {
             var model = new Square(0, 0);
-            Assert.AreEqual(" 1 2 3 \n 4 5 6 \n 7 8 9 ", model.GetAllowedDigits(null));
+            Assert.AreEqual("123456789", model.GetAllowedDigitsPacked());
 
-            model.SetExcludedDigit(1);
-            Assert.AreEqual("   2 3 \n 4 5 6 \n 7 8 9 ", model.GetAllowedDigits(null));
+            model.SetExcludedDigits(new List<int> { 1 });
+            Assert.AreEqual("23456789", model.GetAllowedDigitsPacked());
 
-            model.SetExcludedDigit(2);
-            Assert.AreEqual("     3 \n 4 5 6 \n 7 8 9 ", model.GetAllowedDigits(null));
+            model.SetExcludedDigits(new List<int>{ 2 });
+            Assert.AreEqual("3456789", model.GetAllowedDigitsPacked());
 
-            model.SetExcludedDigit(3);
-            Assert.AreEqual("       \n 4 5 6 \n 7 8 9 ", model.GetAllowedDigits(null));
+            model.SetExcludedDigits(new List<int>{ 3 });
+            Assert.AreEqual("456789", model.GetAllowedDigitsPacked());
 
-            model.SetExcludedDigit(4);
-            Assert.AreEqual("       \n   5 6 \n 7 8 9 ", model.GetAllowedDigits(null));
+            model.SetExcludedDigits(new List<int>{ 4 });
+            Assert.AreEqual("56789", model.GetAllowedDigitsPacked());
 
-            model.SetExcludedDigit(5);
-            Assert.AreEqual("       \n     6 \n 7 8 9 ", model.GetAllowedDigits(null));
+            model.SetExcludedDigits(new List<int>{ 5 });
+            Assert.AreEqual("6789", model.GetAllowedDigitsPacked());
 
-            model.SetExcludedDigit(6);
-            Assert.AreEqual("       \n       \n 7 8 9 ", model.GetAllowedDigits(null));
+            model.SetExcludedDigits(new List<int>{ 6 });
+            Assert.AreEqual("789", model.GetAllowedDigitsPacked());
 
-            model.SetExcludedDigit(7);
-            Assert.AreEqual("       \n       \n   8 9 ", model.GetAllowedDigits(null));
+            model.SetExcludedDigits(new List<int>{ 7 });
+            Assert.AreEqual("89", model.GetAllowedDigitsPacked());
 
-            model.SetExcludedDigit(8);
-            Assert.AreEqual("       \n       \n     9 ", model.GetAllowedDigits(null));
+            model.SetExcludedDigits(new List<int>{ 8 });
+            Assert.AreEqual("9", model.GetAllowedDigitsPacked());
 
-            model.SetExcludedDigit(9);
-            Assert.ThrowsException<InvalidOperationException>(() => { var d = model.GetAllowedDigits(null); });            
+            model.SetExcludedDigits(new List<int>{ 9 });
+            Assert.ThrowsException<InvalidOperationException>(() => { var d = model.GetAllowedDigitsPacked(); });            
         }
 
         [TestMethod]

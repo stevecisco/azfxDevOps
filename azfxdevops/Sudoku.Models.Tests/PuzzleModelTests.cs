@@ -12,8 +12,8 @@ namespace Sudoku.Models.Tests
         [TestMethod]
         public void TestPuzzleAllowedDigits()
         {
-            var puzzle = new Puzzle();
-            Console.WriteLine(puzzle.GetAllowedDigits());
+            var puzzle = new Puzzle(new List<Square>());
+            Console.WriteLine(puzzle.GetAllowedDigitsFormatted());
         }
     }
 }
