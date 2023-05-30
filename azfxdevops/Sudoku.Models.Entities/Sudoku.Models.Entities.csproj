@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Sudoku.Models.Entities\Sudoku.Models.Entities.csproj" />
-  </ItemGroup>
-
 </Project>

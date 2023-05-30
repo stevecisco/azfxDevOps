@@ -3,10 +3,35 @@
     public class Square
     {
         public event EventHandler<int> DigitSet;
+
+        private bool[] _excludedDigits = new bool[9] { false, false, false, false, false, false, false, false, false };
+
+
         public string Identifier { get; private set; }
 
-        
-        private bool[] _excludedDigits = new bool[9] { false, false, false, false, false, false, false, false, false};
+        public bool IsSolved { get => Digit > 0; }
+
+        public int RowIndex { get; set; }
+
+        public int ColIndex { get; set; }
+
+        public Square(int rowIndex, int colIndex, int? digit = null)
+        {
+            if (rowIndex < 0) throw new ArgumentOutOfRangeException(nameof(rowIndex));
+            if (colIndex < 0) throw new ArgumentOutOfRangeException(nameof(colIndex));
+            if (rowIndex > 8) throw new ArgumentOutOfRangeException(nameof(rowIndex));
+            if (colIndex > 8) throw new ArgumentOutOfRangeException(nameof(colIndex));
+
+            RowIndex = rowIndex;
+            ColIndex = colIndex;
+            if (digit != null)
+            {
+                Digit = digit.Value;
+            }
+            Identifier = $"SQ-R{rowIndex}C{colIndex}";
+        }
+
+
         
         public void SetExcludedDigits(List<int> digits)
         {
@@ -31,27 +56,6 @@
             return _excludedDigits[digit - 1];
         }
 
-        public bool IsSolved { get => Digit > 0; }
-
-        public int RowIndex { get; set; }
-
-        public int ColIndex { get; set; }
-
-        public Square(int rowIndex, int colIndex, int? digit = null) 
-        {
-            if (rowIndex < 0) throw new ArgumentOutOfRangeException(nameof(rowIndex));
-            if (colIndex < 0) throw new ArgumentOutOfRangeException(nameof(colIndex));
-            if (rowIndex > 8) throw new ArgumentOutOfRangeException(nameof(rowIndex));
-            if (colIndex > 8) throw new ArgumentOutOfRangeException(nameof(colIndex));
-
-            RowIndex = rowIndex;
-            ColIndex = colIndex;
-            if (digit != null)
-            {
-                Digit = digit.Value;
-            }
-            Identifier = $"SQ-R{rowIndex}C{colIndex}";
-        }
 
         protected virtual void OnDigitSet(int digit)
         {
@@ -62,11 +66,6 @@
             }
         }
 
-        public void Initialize(Square other)
-        {
-            if (other == null) return;
-            Digit = other.Digit;
-        }
 
         private int _digit;
         public int Digit

@@ -5,13 +5,21 @@ VisualStudioVersion = 17.7.33711.374
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "fx1", "fx1\fx1.csproj", "{DDEEB08E-B4EC-4477-951A-31220C03FFBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fxSudokuApi", "fxSudokuApi\fxSudokuApi.csproj", "{BDC056CA-BFA0-43D6-9F7F-A69A7FAC6612}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "fxSudokuApi", "fxSudokuApi\fxSudokuApi.csproj", "{BDC056CA-BFA0-43D6-9F7F-A69A7FAC6612}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Models", "Sudoku.Models\Sudoku.Models.csproj", "{BF2977DC-0357-47F7-8BA5-92061EEF0452}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.Models", "Sudoku.Models\Sudoku.Models.csproj", "{BF2977DC-0357-47F7-8BA5-92061EEF0452}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Models.Tests", "Sudoku.Models.Tests\Sudoku.Models.Tests.csproj", "{7B315004-7F50-4AA6-B962-0B3097558C90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.Models.Tests", "Sudoku.Models.Tests\Sudoku.Models.Tests.csproj", "{7B315004-7F50-4AA6-B962-0B3097558C90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuzzleTester", "PuzzleTester\PuzzleTester.csproj", "{02FC0D77-6C33-49E4-935E-D628A8B816AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PuzzleTester", "PuzzleTester\PuzzleTester.csproj", "{02FC0D77-6C33-49E4-935E-D628A8B816AB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.Models.Entities", "Sudoku.Models.Entities\Sudoku.Models.Entities.csproj", "{0233FC81-0E91-45D6-8808-3F0382692DEE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.Services", "Sudoku.Services\Sudoku.Services.csproj", "{5387E884-0C9E-4293-8470-530BAC8FC4FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.StorageHelper", "Azure.StorageHelper\Azure.StorageHelper.csproj", "{91923EFC-81E3-4AD3-AF3E-A9E8A77320F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fxSudokuSolver", "fxSudokuSolver\fxSudokuSolver.csproj", "{8426D1B1-D4BA-4867-9EFE-CFC4FF0D3A7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +47,22 @@ Global
 		{02FC0D77-6C33-49E4-935E-D628A8B816AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02FC0D77-6C33-49E4-935E-D628A8B816AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02FC0D77-6C33-49E4-935E-D628A8B816AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0233FC81-0E91-45D6-8808-3F0382692DEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0233FC81-0E91-45D6-8808-3F0382692DEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0233FC81-0E91-45D6-8808-3F0382692DEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0233FC81-0E91-45D6-8808-3F0382692DEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5387E884-0C9E-4293-8470-530BAC8FC4FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5387E884-0C9E-4293-8470-530BAC8FC4FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5387E884-0C9E-4293-8470-530BAC8FC4FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5387E884-0C9E-4293-8470-530BAC8FC4FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91923EFC-81E3-4AD3-AF3E-A9E8A77320F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91923EFC-81E3-4AD3-AF3E-A9E8A77320F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91923EFC-81E3-4AD3-AF3E-A9E8A77320F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91923EFC-81E3-4AD3-AF3E-A9E8A77320F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8426D1B1-D4BA-4867-9EFE-CFC4FF0D3A7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8426D1B1-D4BA-4867-9EFE-CFC4FF0D3A7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8426D1B1-D4BA-4867-9EFE-CFC4FF0D3A7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8426D1B1-D4BA-4867-9EFE-CFC4FF0D3A7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

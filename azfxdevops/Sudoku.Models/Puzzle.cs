@@ -1,31 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Sudoku.Models.Entities;
 
 namespace Sudoku.Models
 {
     public class Puzzle
     {
-        public List<Square> Squares { get; set; }
+        public List<Square> Squares { get; set; } = new List<Square>();
 
-        public Columns Columns { get; set; }
+        public Columns Columns { get; set; } = new Columns();
 
-        public Rows Rows { get; set; }
+        public Rows Rows { get; set; } = new Rows();
 
-        public NineSquares NineSquares { get; set; }
+        public NineSquares NineSquares { get; set; } = new NineSquares();
 
-
-        public Puzzle(List<Square> squares)
+        protected void InitializeSquares()
         {
-            Squares = new List<Square>();
-            Columns = new Columns();
-            Rows = new Rows();
-            NineSquares = new NineSquares();
-
-
             for (int rowIndex = 0; rowIndex < 9; rowIndex++)
             {
                 var rowOfSquares = Rows.First(r => r.RowIndex == rowIndex);
@@ -42,17 +30,20 @@ namespace Sudoku.Models
                     nineSquare.Add(square);
                 }
             }
+        }
+
+        public Puzzle(List<SquareDTO> squares)
+        {
+            InitializeSquares();
 
             foreach (var square in squares)
             {
                 var puzzleSquare = Squares.FirstOrDefault(s => s.RowIndex == square.RowIndex && s.ColIndex == square.ColIndex);
-                if (puzzleSquare != null)
+                if (puzzleSquare != null && square.Digit != null)
                 {
-                    puzzleSquare.Initialize(square);
+                    puzzleSquare.Digit = square.Digit.Value;
                 }
             }
-
-
         }
 
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Sudoku.Models.Entities;
 
 namespace Sudoku.Models.Tests
 {
@@ -12,7 +8,7 @@ namespace Sudoku.Models.Tests
         [TestMethod]
         public void TestPuzzleAllowedDigits()
         {
-            var puzzle = new Puzzle(new List<Square>());
+            var puzzle = new Puzzle(new List<SquareDTO>());
             Console.WriteLine(puzzle.GetAllowedDigitsFormatted());
         }
     }
