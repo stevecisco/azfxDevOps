@@ -396,3 +396,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/azfxdevops/fxSudokuSolver/Properties/ServiceDependencies/fxSudokuSolver - Zip Deploy/profile.arm.json
+/azfxdevops/fxSudokuSolver/Properties/ServiceDependencies/local/storage2.arm.json
